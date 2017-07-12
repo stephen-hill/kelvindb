@@ -35,4 +35,39 @@ $klein->respond('GET', '/[a:database]/[a:document].json', function ($request, $r
     return $response->json($object);
 });
 
+$klein->respond('GET', '/[a:database]/all.json', function ($request, $response) use ($config) {
+    $database = $request->database;
+    $document = $request->document;
+    
+    if ($config->has($database) === false)
+    {
+        return $response->code(404);
+    }
+    
+    $dir = '../data/' . $database;
+    
+    if (is_dir($dir) === false)
+    {
+        mkdir($dir);
+    }
+    
+    $files = scandir ($dir, SCANDIR_SORT_ASCENDING);
+    
+    $documents = [];
+    
+    foreach($files as $filename)
+    {
+        if (substr($filename, -5) === '.json')
+        {
+            $path = $dir . "/" . $filename;
+            $raw = file_get_contents($path);
+            $object = json_decode($raw);
+            
+            $documents[] = $object;
+        }
+    }
+    
+    return $response->json($documents);
+});
+
 $klein->dispatch();
