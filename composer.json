@@ -1,0 +1,7 @@
+{
+    "require": {
+        "klein/klein": "^2.1",
+        "hassankhan/config": "^0.10.0",
+        "digitalnature/php-ref": "^1.2"
+    }
+}

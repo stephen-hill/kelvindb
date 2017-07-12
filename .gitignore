@@ -1,0 +1,6 @@
+.c9/
+config/
+data/
+vendor/
+php_errors.log
+php.ini
